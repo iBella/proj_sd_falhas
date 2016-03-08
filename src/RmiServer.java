@@ -5,9 +5,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Date;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Random;
 
 public class RmiServer extends Observable implements RmiService {
@@ -27,10 +24,13 @@ public class RmiServer extends Observable implements RmiService {
         }
 
         @Override
-        public void update(Observable o, Object arg) {
+        public void update(Observable o, Ponto p) {
             try {
-                ro.update(o.toString(), arg);
+                ro.update(o, p);
             } catch (RemoteException e) {
+            	
+            	
+            	
                 System.out.println("Remote exception removing observer:" + this);
                 o.deleteObserver(this);
                 //e.printStackTrace();
@@ -41,6 +41,7 @@ public class RmiServer extends Observable implements RmiService {
 
     @Override
     public void addObserver(RemoteObserver o) throws RemoteException {
+    	
         WrappedObserver mo = new WrappedObserver(o);
         addObserver(mo);
         System.out.println("Added observer:" + mo);
@@ -55,8 +56,10 @@ public class RmiServer extends Observable implements RmiService {
                 } catch (InterruptedException e) {
                     // ignore
                 }
-                setChanged();
-                notifyObservers((new Ponto(gerarCoor(),gerarCoor(),Color.BLACK)).toString());
+                setChanged(true);
+                System.out.println("entrouNotify");
+                notifyObservers(new Ponto(gerarCoor(),gerarCoor(),Color.BLACK));
+                System.out.println("saiuNotify");
             }
         };
     };
@@ -77,8 +80,7 @@ public class RmiServer extends Observable implements RmiService {
             System.setSecurityManager(new RMISecurityManager());
         try {
             Registry rmiRegistry = LocateRegistry.createRegistry(9999);
-            RmiService rmiService = (RmiService) UnicastRemoteObject
-                    .exportObject(new RmiServer(), 9999);
+            RmiService rmiService = (RmiService) UnicastRemoteObject.exportObject(new RmiServer(), 9999);
             rmiRegistry.bind("RmiService", rmiService);
             System.out.println("Server OK!");
         } catch (Exception ex) {

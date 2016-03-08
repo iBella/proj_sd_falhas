@@ -1,8 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
+
 import java.awt.Graphics;
-import java.awt.Panel;
+
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

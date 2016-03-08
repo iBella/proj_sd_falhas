@@ -1,4 +1,7 @@
-import java.awt.Color;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
@@ -22,20 +25,53 @@ public class RmiClient extends UnicastRemoteObject implements RemoteObserver {
         try {
         	
         	
-            RmiService remoteService = (RmiService) Naming
-                    .lookup("//200.239.179.185:9999/RmiService");
+            RmiService remoteService = (RmiService) Naming.lookup("//localhost:9999/RmiService");
             RmiClient client = new RmiClient();
             remoteService.addObserver(client);
+            thread.start();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+    
+    public static Thread thread = new Thread() {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    testarConexao();
+                    Thread.sleep(5*1000);
+                } catch (Exception e) {
+                    System.out.println("Pegou!!");
+                }
+            }
+        };
+    };
+    
+    public static void testarConexao(){
+    	try {
+    	       InetAddress address = InetAddress.getByName("localhost");
+    	       System.out.println("Name: " + address.getHostName());
+    	       System.out.println("Addr: " + address.getHostAddress());
+    	       System.out.println("Reach: " + address.isReachable(3000));
+    	     }
+    	     catch (UnknownHostException e) {
+    	       System.err.println("Unable to lookup web.mit.edu");
+    	     }
+    	     catch (IOException e) {
+    	       System.err.println("Unable to reach web.mit.edu");
+    	     }
+    }
+    
+    
     @Override
-    public void update(Object observable, Object updateMsg)
+    public void update(Observable o, Ponto p)
             throws RemoteException {
-    	String[] ponto = updateMsg.toString().split(" ");
-    	Color c = new Color(Integer.parseInt(ponto[2]));
-    	frame.addPonto(new Ponto(Integer.parseInt(ponto[0]), Integer.parseInt(ponto[1]), c));
-        System.out.println("got message:" + updateMsg.toString());
+    	
+    	
+    	
+    	
+    	frame.addPonto(p);
+        System.out.println("got message:" + p.toString());
     }
 }
