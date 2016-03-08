@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 public class Ponto extends JPanel{
 	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 4313519667361553991L;
 	private int coordX;
 	private int coordY;

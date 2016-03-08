@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class RmiServer extends Observable implements RmiService {
 
-    private class WrappedObserver implements Observer, Serializable {
+	private class WrappedObserver implements Observer, Serializable {
 
         //private static final long serialVersionUID = 1L;
 
@@ -26,7 +26,12 @@ public class RmiServer extends Observable implements RmiService {
         @Override
         public void update(Observable o, String p) {
             try {
-                ro.update(o.toString(), p);
+            	if(ro.isAlive()==false){
+            		System.out.println("wrapper antes");
+                    ro.update(o.toString(), p);
+                    System.out.println("wrapper depois");
+            	}
+            	
             } catch (RemoteException e) {
             	
             	
@@ -58,7 +63,7 @@ public class RmiServer extends Observable implements RmiService {
                 }
                 setChanged(true);
                 //System.out.println("entrouNotify");
-                notifyObservers(new Ponto(gerarCoor(),gerarCoor(),Color.BLACK).toString());
+                notifyObservers((new Ponto(gerarCoor(),gerarCoor(),Color.BLACK)).toString());
                 //System.out.println("saiuNotify");
             }
         };

@@ -1,8 +1,11 @@
+
 import java.util.ArrayList;
 
-public class Observable {
+public class Observable{
+
 	private ArrayList<Observer> observers;
 	private boolean changed;
+	private final Object MUTEX = new Object();
 	
 	
 	public Observable(){
@@ -11,24 +14,39 @@ public class Observable {
 	}
 	
 	public void addObserver(Observer o) {
-		observers.add(o);
+		synchronized (MUTEX) {
+			observers.add(o);
+		}
+		
 	}
 	
 	public void deleteObserver(Observer o) {
-		observers.remove(o);
+		synchronized (MUTEX) {
+			observers.remove(o);
+		}
+		
 	}
 	
 	public void deleteObservers() {
-		observers.clear();
+		synchronized (MUTEX) {
+			observers.clear();
+		}
+		
 	}
 	
 	public void notifyObservers(String p) {
-		if(isChanged()){
-			setChanged(false);
-			for (Observer observer : observers) {
-				observer.update(this, p);
+		
+		synchronized (MUTEX) {
+			if(isChanged()){
+				setChanged(false);
+				for (Observer observer : observers) {
+					System.out.println("antes " + observer.toString());
+					observer.update(this, p);
+					System.out.println("depois " + observer.toString());
+				}
 			}
 		}
+		
 		
 	}
 	
