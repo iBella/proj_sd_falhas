@@ -24,9 +24,9 @@ public class RmiServer extends Observable implements RmiService {
         }
 
         @Override
-        public void update(Observable o, Ponto p) {
+        public void update(Observable o, String p) {
             try {
-                ro.update(o, p);
+                ro.update(o.toString(), p);
             } catch (RemoteException e) {
             	
             	
@@ -57,9 +57,9 @@ public class RmiServer extends Observable implements RmiService {
                     // ignore
                 }
                 setChanged(true);
-                System.out.println("entrouNotify");
-                notifyObservers(new Ponto(gerarCoor(),gerarCoor(),Color.BLACK));
-                System.out.println("saiuNotify");
+                //System.out.println("entrouNotify");
+                notifyObservers(new Ponto(gerarCoor(),gerarCoor(),Color.BLACK).toString());
+                //System.out.println("saiuNotify");
             }
         };
     };

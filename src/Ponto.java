@@ -2,15 +2,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.Serializable;
 import java.util.LinkedList;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-public class Ponto extends JPanel implements Serializable{
+public class Ponto extends JPanel{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4313519667361553991L;
 	private int coordX;
 	private int coordY;

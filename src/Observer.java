@@ -1,5 +1,5 @@
 
 public interface Observer {
 	
-	public void update(Observable o, Ponto p);
+	public void update(Observable o, String p);
 }

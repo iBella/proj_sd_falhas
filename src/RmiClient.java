@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -65,13 +66,16 @@ public class RmiClient extends UnicastRemoteObject implements RemoteObserver {
     
     
     @Override
-    public void update(Observable o, Ponto p)
+    public void update(Object o, String p)
             throws RemoteException {
     	
+    	String[] ponto = p.toString().split(" ");
+    	Color c = new Color(Integer.parseInt(ponto[2]));
+    	frame.addPonto(new Ponto(Integer.parseInt(ponto[0]), Integer.parseInt(ponto[1]), c));
+    	System.out.println("got message:" + p.toString());
     	
-    	
-    	
-    	frame.addPonto(p);
-        System.out.println("got message:" + p.toString());
+//    	
+//    	frame.addPonto(p);
+//        System.out.println("got message:" + p.toString());
     }
 }

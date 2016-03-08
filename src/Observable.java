@@ -22,7 +22,7 @@ public class Observable {
 		observers.clear();
 	}
 	
-	public void notifyObservers(Ponto p) {
+	public void notifyObservers(String p) {
 		if(isChanged()){
 			setChanged(false);
 			for (Observer observer : observers) {

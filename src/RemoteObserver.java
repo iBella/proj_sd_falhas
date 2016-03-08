@@ -3,6 +3,6 @@ import java.rmi.RemoteException;
 
 public interface RemoteObserver extends Remote {
 
-    void update(Observable o, Ponto p) throws RemoteException;
+    void update(Object o, String p) throws RemoteException;
 
 }
