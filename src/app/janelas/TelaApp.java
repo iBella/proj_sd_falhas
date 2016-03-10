@@ -1,3 +1,4 @@
+package app.janelas;
 
 import javax.swing.JFrame;
 
