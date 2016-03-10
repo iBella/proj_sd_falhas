@@ -39,7 +39,7 @@ public class ClienteObserver implements Observer,Serializable{
 		//Porta do cliente 6001
 		Socket socket = new Socket(ip, 6001);
 		ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-		out.writeObject(p);
+		out.writeObject(p.toString());				///////////////////
 		out.flush();
 		out.close();
 		socket.close();

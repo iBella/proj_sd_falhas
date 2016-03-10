@@ -1,5 +1,6 @@
 package app.cliente;
 
+import java.awt.Color;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
@@ -23,9 +24,15 @@ public class ClienteConsumer<S extends Socket> extends GenericConsumer<S> {
 			// TODO Auto-generated method stub
 			ObjectInputStream in = new ObjectInputStream(str.getInputStream());
 			
-			Ponto ponto = (Ponto) in.readObject();
-			janela.addPonto(ponto);
-			System.err.println("Server: " + ponto.toString());
+			//Ponto ponto = (Ponto) in.readObject();
+			
+			String entrada = (String) in.readObject();
+			
+			String[] ponto = entrada.toString().split(" ");
+	     	Color c = new Color(Integer.parseInt(ponto[2]));
+	     	janela.addPonto(new Ponto(Integer.parseInt(ponto[0]), Integer.parseInt(ponto[1]), c));
+			
+			//System.err.println("Server: " + ponto.toString());
 			
 			str.close();
 				

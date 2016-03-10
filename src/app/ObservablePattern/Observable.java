@@ -58,7 +58,7 @@ public class Observable {
 		}
     	for (Observer obj : observersLocal) {
             try {
-				obj.update(null, p);
+				obj.update(null, p);					///////////////
 			} catch(ConnectException e){
 				observers.remove(obj);
 				System.err.println("Cliente: "+obj.toString()+" foi removido!");

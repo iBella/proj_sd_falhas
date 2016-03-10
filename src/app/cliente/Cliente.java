@@ -83,7 +83,6 @@ public class Cliente {
 			i = InetAddress.getLocalHost();
 			System.err.println(i.getHostAddress());
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}    
 	     

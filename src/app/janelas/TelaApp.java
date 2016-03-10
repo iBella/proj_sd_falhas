@@ -4,7 +4,8 @@ import javax.swing.JFrame;
 
 
 public class TelaApp extends JFrame implements Runnable{
-	private static final long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = 603601293727369475L;
 	private Ponto ponto = new Ponto();
 
 	/**
