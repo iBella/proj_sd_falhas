@@ -18,7 +18,6 @@ public class ServidorListener extends Server implements Runnable{
 
 	@Override
 	protected GenericConsumer<Socket> createSocketConsumer(GenericResource<Socket> r) {
-		// TODO Auto-generated method stub
 		return new ServidorConsumer<>(r, observable);
 	}
 

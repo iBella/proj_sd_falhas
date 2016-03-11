@@ -4,16 +4,12 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ConnectException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import app.janelas.Ponto;
-
 public class ClienteObserver implements Observer,Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8462252684251280550L;
 	private String ip;
 	
@@ -35,11 +31,13 @@ public class ClienteObserver implements Observer,Serializable{
 		this.ip = ip;
 	}
 	
-	public void enviarMensagem(Ponto p, String ip) throws UnknownHostException,ConnectException, IOException{
+	public void enviarMensagem(String p, String ip) throws UnknownHostException,ConnectException, IOException{
 		//Porta do cliente 6001
-		Socket socket = new Socket(ip, 6001);
+		Socket socket = new Socket();
+		socket.connect(new InetSocketAddress(ip, 6001), 1000);
 		ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-		out.writeObject(p.toString());				///////////////////
+		out.writeObject(p);
+		
 		out.flush();
 		out.close();
 		socket.close();
@@ -47,8 +45,7 @@ public class ClienteObserver implements Observer,Serializable{
 	
 	@Override
 	public void update(Observable arg0, Object arg1) throws ConnectException, UnknownHostException, IOException {
-		// TODO Auto-generated method stub
-		enviarMensagem(((Ponto)arg1), getIp());
+		enviarMensagem((String)arg1, getIp());
 	}
 
 }

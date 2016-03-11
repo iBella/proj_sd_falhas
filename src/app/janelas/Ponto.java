@@ -6,20 +6,20 @@ import java.awt.Graphics2D;
 import java.util.LinkedList;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-//public class Ponto extends JPanel implements Serializable{
 
 public class Ponto extends JPanel{
+	
 	private static final long serialVersionUID = 4313519667361553991L;
 	private int coordX;
 	private int coordY;
 	private Color color;
-	
 	private LinkedList<Ponto> lista = new LinkedList<>();
+	
 	public Ponto(){
 		super();
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLayout(new BorderLayout(0, 0));
-		setBackground(Color.WHITE);
+		setBackground(Color.BLACK);
 	}
 	
 	public Ponto(int coordX, int coordY, Color color) {
@@ -55,18 +55,23 @@ public class Ponto extends JPanel{
 	        Graphics2D g2 = (Graphics2D) g.create();
 	        g2 = (Graphics2D) g;
 	        g2.setColor(p.getColor());
-	        g2.fillOval(p.getCoordX(), p.getCoordY(), 7, 7); 
+	        g2.fillOval(p.getCoordX(), p.getCoordY(), 12, 12); 
         }
     }
-    public void updateGraphics(Ponto p) {
-	    lista.add(p);
+//    public void updateGraphics(Ponto p) {
+//	    lista.add(p);
+//        repaint();
+//    }
+    
+    /////
+    public void updatePacote(LinkedList<Ponto> pacote) {
+    	for(Ponto p: pacote)
+	    	lista.add(p);
         repaint();
     }
 
 	@Override
 	public String toString() {
-		return coordX+" "+coordY+" "+color.getRGB();
+		return coordX+" "+coordY+" "+color.getRGB()+";";
 	}
-    
-    
 }

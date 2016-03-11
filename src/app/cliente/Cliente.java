@@ -23,29 +23,29 @@ public class Cliente {
 	public Cliente(int porta) {
 		super();
 		this.setProp(getNewProp());
+		
 		this.janela = new TelaApp();
 		this.listener = new ClienteListener(porta, janela);
 		Thread tJanela = new Thread(janela);
 		tJanela.start();
 		Thread tListener = new Thread(listener);
 		tListener.start();
-		//conectando com o server
+		
+//		//conectando com o server
 		conexaoServer(prop.getProperty("primario"));
 	}
 	
 	public static Properties getNewProp() { 
 		Properties props = new Properties(); 
 		FileInputStream file;
+		
 		try {
 			file = new FileInputStream( "config.properties");
 			props.load(file); 
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} 
+		catch (FileNotFoundException e) { e.printStackTrace(); }
+		catch (IOException e) { e.printStackTrace(); } 
+		
 		return props; 
 	}
 
@@ -62,17 +62,19 @@ public class Cliente {
 			//Porta do servidor 6000
 			Socket socket = new Socket(ipServidor, 6000);
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-			out.writeObject(new Mensagem(0,new ClienteObserver(InetAddress.getLocalHost().getHostAddress())));
+			
+			out.writeObject(new Mensagem(0, new ClienteObserver(InetAddress.getLocalHost().getHostAddress())));
+			
 			out.flush();
 			out.close();
 			socket.close();
 			
-		} catch (ConnectException e) {
+		} 
+		catch (ConnectException e) {
 			System.err.println("Error ao conectar com o Servidor "+ipServidor+" !");
 			conexaoServer(prop.getProperty("secundario"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} 
+		catch (IOException e) { e.printStackTrace(); }
 	}
 	
 	public static void main(String[] args){
@@ -82,10 +84,9 @@ public class Cliente {
 		try {
 			i = InetAddress.getLocalHost();
 			System.err.println(i.getHostAddress());
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}    
+		} 
+		catch (UnknownHostException e) { e.printStackTrace(); }    
 	     
 	}
-	
+
 }

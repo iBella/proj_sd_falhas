@@ -2,10 +2,9 @@ package app.ObservablePattern;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
-
-import app.janelas.Ponto;
 
 public class Observable {
 	
@@ -48,7 +47,8 @@ public class Observable {
     }
      
     //method to notify observers of change
-    public void notifyObservers(Ponto p){
+//    public void notifyObservers(Ponto p){
+    public void notifyObservers(String p){
     	List<Observer> observersLocal = null;
     	synchronized (MUTEX) {
     		if (!changed)
@@ -58,14 +58,16 @@ public class Observable {
 		}
     	for (Observer obj : observersLocal) {
             try {
-				obj.update(null, p);					///////////////
-			} catch(ConnectException e){
+				obj.update(null, p);
+			} 
+            catch(ConnectException | SocketTimeoutException e){
 				observers.remove(obj);
 				System.err.println("Cliente: "+obj.toString()+" foi removido!");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} 
+            catch (IOException e) {
 				e.printStackTrace();
 			}
+            
         }
     }
 

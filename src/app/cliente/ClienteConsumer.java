@@ -1,10 +1,9 @@
 package app.cliente;
 
-import java.awt.Color;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.LinkedList;
 
-import app.janelas.Ponto;
 import app.janelas.TelaApp;
 import server.GenericConsumer;
 import server.GenericResource;
@@ -21,25 +20,22 @@ public class ClienteConsumer<S extends Socket> extends GenericConsumer<S> {
 	@Override
 	protected void doSomething(S str) {
 		try{
-			// TODO Auto-generated method stub
 			ObjectInputStream in = new ObjectInputStream(str.getInputStream());
-			
-			//Ponto ponto = (Ponto) in.readObject();
 			
 			String entrada = (String) in.readObject();
 			
-			String[] ponto = entrada.toString().split(" ");
-	     	Color c = new Color(Integer.parseInt(ponto[2]));
-	     	janela.addPonto(new Ponto(Integer.parseInt(ponto[0]), Integer.parseInt(ponto[1]), c));
+			LinkedList<String> pacote = new LinkedList<>();
+			String[] pontos = entrada.toString().split(";");
+			System.err.println(pontos[0]);
+	     	for(String ponto: pontos)
+	     		pacote.add(ponto);
 			
-			//System.err.println("Server: " + ponto.toString());
+	     	janela.addPacote(pacote);
 			
 			str.close();
 				
-		}catch (Exception e){
-			e.printStackTrace();
-			
 		}
+		catch (Exception e){ e.printStackTrace(); }
 	}
 
 }

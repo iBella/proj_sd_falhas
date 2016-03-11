@@ -1,5 +1,8 @@
 package app.janelas;
 
+import java.awt.Color;
+import java.util.LinkedList;
+
 import javax.swing.JFrame;
 
 
@@ -19,8 +22,19 @@ public class TelaApp extends JFrame implements Runnable{
 		setContentPane(ponto);
 	}
 	
-	public void addPonto(Ponto p){
-		ponto.updateGraphics(p);
+//	public void addPonto(Ponto p){
+//		ponto.updateGraphics(p);
+//	}
+	
+	public void addPacote(LinkedList<String> p){
+		LinkedList<Ponto> pacote = new LinkedList<>();
+		for(String ponto : p){
+			String[] parte = ponto.toString().split(" ");
+	     	Color c = new Color(Integer.parseInt(parte[2]));
+	     	pacote.add(new Ponto(Integer.parseInt(parte[0]), Integer.parseInt(parte[1]), c));
+		}
+			
+		ponto.updatePacote(pacote);
 	}
 
 	@Override

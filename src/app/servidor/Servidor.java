@@ -37,18 +37,29 @@ public class Servidor {
 		return new Ponto(gerarCoordenadas(),gerarCoordenadas(),new Color(r.nextInt()));
 	}
 	
-	public void enviarPontos(){
+	///////
+	public String gerarNovoPacote(){
+		String pacote = "";
+		for(int i = 0; i < 10; i++){
+			pacote += gerarNovoPonto().toString();
+		}
+		return pacote;
+	}
+	
+	public void enviarPacotes(){
 		Thread thread = new Thread() {
 	        @Override
 	        public void run() {
 	            while (true) {
 	                try {
 	                    Thread.sleep(1 * 1000);
-	                } catch (InterruptedException e) {
+	                } 
+	                catch (InterruptedException e) {
 	                    // ignore
 	                }
 	                observable.setChanged(true);
-	                observable.notifyObservers(gerarNovoPonto());
+	                //observable.notifyObservers(gerarNovoPonto());
+	                observable.notifyObservers(gerarNovoPacote());
 	            }
 	        };
 	    };
@@ -57,6 +68,6 @@ public class Servidor {
 	
 	public static void main(String[] args){
 		Servidor servidor = new Servidor(6000);
-		servidor.enviarPontos();
+		servidor.enviarPacotes();
 	}
 }

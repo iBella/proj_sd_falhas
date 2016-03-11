@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class Mensagem implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4835047122198330641L;
 	private int tipo;
 	private Object objeto;
@@ -34,7 +31,5 @@ public class Mensagem implements Serializable{
 	public void setObjeto(Object objeto) {
 		this.objeto = objeto;
 	}
-	
-	
 	
 }

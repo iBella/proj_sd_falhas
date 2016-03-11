@@ -22,7 +22,6 @@ public class ServidorConsumer<S extends Socket> extends GenericConsumer<S> {
 	@Override
 	protected void doSomething(S str) {
 		try{
-			// TODO Auto-generated method stub
 			ObjectInputStream in = new ObjectInputStream(str.getInputStream());
 			
 			Mensagem msg = (Mensagem) in.readObject();
@@ -38,13 +37,9 @@ public class ServidorConsumer<S extends Socket> extends GenericConsumer<S> {
 			}
 			
 			str.close();
-		}catch (Exception e){
-			e.printStackTrace();
-			
 		}
-		
+		catch (Exception e){
+			e.printStackTrace();
+		}
 	}
-
-	
-
 }
