@@ -4,7 +4,6 @@ package server;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GenericResource<S> {
-	
 	private ConcurrentLinkedQueue<S> registers;
 	private boolean finished, serverFinished;
 	
@@ -15,6 +14,7 @@ public class GenericResource<S> {
 	}
 	
 	public void putRegister(S register){
+		
 			this.registers.offer(register);
 			wakeup();
 		
@@ -22,6 +22,7 @@ public class GenericResource<S> {
 	
 	
 	public S getRegister() throws Exception{
+		
 			if(!this.registers.isEmpty())
 				return this.registers.poll();
 			else {

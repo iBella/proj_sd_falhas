@@ -8,8 +8,15 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import app.cliente.Cliente;
+import app.janelas.Ponto;
+import app.servidor.Servidor;
+
 public class ClienteObserver implements Observer,Serializable{
 	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -8462252684251280550L;
 	private String ip;
 	
@@ -34,18 +41,22 @@ public class ClienteObserver implements Observer,Serializable{
 	public void enviarMensagem(String p, String ip) throws UnknownHostException,ConnectException, IOException{
 		//Porta do cliente 6001
 		Socket socket = new Socket();
-		socket.connect(new InetSocketAddress(ip, 6001), 1000);
+		socket.connect(new InetSocketAddress(ip, Cliente.PORTA), Servidor.timeout);
 		ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-		out.writeObject(p);
-		
+//		out.writeObject(p);
+		out.writeObject(p.toString());
 		out.flush();
 		out.close();
 		socket.close();
+		//System.out.println(">>>>"+this.ip);
 	}
 	
 	@Override
-	public void update(Observable arg0, Object arg1) throws ConnectException, UnknownHostException, IOException {
-		enviarMensagem((String)arg1, getIp());
+	public void update(Object arg0, Object arg1) throws ConnectException, UnknownHostException, IOException {
+		// TODO Auto-generated method stub
+		
+		//System.out.println("+++++"+this.ip);
+		enviarMensagem(((String)arg1), getIp());
 	}
 
 }

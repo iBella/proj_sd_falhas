@@ -3,49 +3,56 @@ package app.cliente;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Properties;
 
 import app.Mensagem;
 import app.ObservablePattern.ClienteObserver;
+import app.ObservablePattern.ServidorObserver;
 import app.janelas.TelaApp;
+import app.servidor.Servidor;
 
 public class Cliente {
 	
 	private TelaApp janela;
 	private ClienteListener listener;
 	private Properties prop;
+	public static String ip;
+	public static int PORTA = 5999; 
 	
-	public Cliente(int porta) {
+	public Cliente(String ip) {
 		super();
+		Cliente.ip = ip;
 		this.setProp(getNewProp());
-		
 		this.janela = new TelaApp();
-		this.listener = new ClienteListener(porta, janela);
+		this.listener = new ClienteListener(PORTA, janela);
 		Thread tJanela = new Thread(janela);
 		tJanela.start();
 		Thread tListener = new Thread(listener);
 		tListener.start();
-		
-//		//conectando com o server
-		conexaoServer(prop.getProperty("primario"));
+		//conectando com o server
+		novaConexaoComServidores();
 	}
 	
 	public static Properties getNewProp() { 
 		Properties props = new Properties(); 
 		FileInputStream file;
-		
 		try {
-			file = new FileInputStream( "config.properties");
+			file = new FileInputStream("config.properties");
 			props.load(file); 
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
-		catch (FileNotFoundException e) { e.printStackTrace(); }
-		catch (IOException e) { e.printStackTrace(); } 
-		
 		return props; 
 	}
 
@@ -57,36 +64,33 @@ public class Cliente {
 		this.prop = prop;
 	}
 
-	public void conexaoServer(String ipServidor){
-		try {
-			//Porta do servidor 6000
-			Socket socket = new Socket(ipServidor, 6000);
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+	public void novaConexaoComServidores(){
+		for (Object s : prop.keySet()) {
+			String server = prop.getProperty((String)s);
+			String[] configServer = server.split(" ");
+			try {
+				Socket skt = new Socket(configServer[0], Integer.parseInt(configServer[1]));
+				ObjectOutputStream out = new ObjectOutputStream(skt.getOutputStream());
+				out.writeObject(new Mensagem(2,new ClienteObserver(ip)));
+				out.flush();
+				out.close();
+				skt.close();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.err.println("Nao foi possivel conectar ao servidor "+configServer[0]);
+				//e.printStackTrace();
+			}
+		}
 			
-			out.writeObject(new Mensagem(0, new ClienteObserver(InetAddress.getLocalHost().getHostAddress())));
-			
-			out.flush();
-			out.close();
-			socket.close();
-			
-		} 
-		catch (ConnectException e) {
-			System.err.println("Error ao conectar com o Servidor "+ipServidor+" !");
-			conexaoServer(prop.getProperty("secundario"));
-		} 
-		catch (IOException e) { e.printStackTrace(); }
 	}
 	
 	public static void main(String[] args){
-		new Cliente(6001);
-		
-		InetAddress i;
-		try {
-			i = InetAddress.getLocalHost();
-			System.err.println(i.getHostAddress());
-		} 
-		catch (UnknownHostException e) { e.printStackTrace(); }    
+		new Cliente(args[0]);
+		System.err.println("Ip: "+args[0]);    
 	     
 	}
-
+	
 }

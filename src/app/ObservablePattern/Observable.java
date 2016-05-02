@@ -10,11 +10,13 @@ public class Observable {
 	
 	private List<Observer> observers;
 	private boolean changed;
+	private ServidorObservable servidores;
     private final Object MUTEX= new Object();
     
-    public Observable(){
+    public Observable( ServidorObservable s){
     	observers = new ArrayList<>();
     	changed = false;
+    	this.servidores = s;
     }
     
 	public List<Observer> getObservers() {
@@ -45,10 +47,9 @@ public class Observable {
 			observers.remove(obj);
 		}
     }
-     
+    
     //method to notify observers of change
-//    public void notifyObservers(Ponto p){
-    public void notifyObservers(String p){
+    public void notifyObservers(Object p){
     	List<Observer> observersLocal = null;
     	synchronized (MUTEX) {
     		if (!changed)
@@ -58,18 +59,23 @@ public class Observable {
 		}
     	for (Observer obj : observersLocal) {
             try {
-				obj.update(null, p);
-			} 
-            catch(ConnectException | SocketTimeoutException e){
+            	obj.update(null, p);
+			} catch(ConnectException | SocketTimeoutException e){
 				observers.remove(obj);
-				System.err.println("Cliente: "+obj.toString()+" foi removido!");
-			} 
-            catch (IOException e) {
+				servidores.setChanged(true);
+				servidores.notifyObservers(5, obj);
+				System.err.println("O Cliente: "+obj.toString()+" foi removido!");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            
         }
     }
+
+	@Override
+	public String toString() {
+		return "Observable [observers=" + observers.toString() + "]";
+	}
 
 	
 }

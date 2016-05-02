@@ -6,6 +6,6 @@ import java.net.UnknownHostException;
 
 public interface Observer {
 	
-	public void update(Observable arg0, Object arg1) throws ConnectException, UnknownHostException, IOException;
+	public void update(Object arg0, Object arg1) throws ConnectException, UnknownHostException, IOException;
 	
 }

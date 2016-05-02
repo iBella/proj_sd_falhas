@@ -7,7 +7,10 @@ import javax.swing.JFrame;
 
 
 public class TelaApp extends JFrame implements Runnable{
-	
+
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 603601293727369475L;
 	private Ponto ponto = new Ponto();
 
@@ -21,12 +24,7 @@ public class TelaApp extends JFrame implements Runnable{
 		
 		setContentPane(ponto);
 	}
-	
-//	public void addPonto(Ponto p){
-//		ponto.updateGraphics(p);
-//	}
-	
-	public void addPacote(LinkedList<String> p){
+	public void addPacote(LinkedList<String> p){  //mudou 2
 		LinkedList<Ponto> pacote = new LinkedList<>();
 		for(String ponto : p){
 			String[] parte = ponto.toString().split(" ");

@@ -61,8 +61,7 @@ public abstract class Server {
     private void openServerSocket() {
         try {
             this.serverSocket = new ServerSocket(this.port);
-        } 
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException("Cannot open port " + port, e);
         }
     }

@@ -2,6 +2,9 @@ package server;
 
 public class JCL_messageImpl implements JCL_message{
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -1298874117877687170L;
 	private int type;
 	
@@ -11,6 +14,7 @@ public class JCL_messageImpl implements JCL_message{
 	
 	@Override
 	public int getType() {
+		// TODO Auto-generated method stub
 		return type;
 	}
 
@@ -18,4 +22,7 @@ public class JCL_messageImpl implements JCL_message{
 	public void setType(int type) {
 		this.type = type;		
 	}
+
+	
+
 }
